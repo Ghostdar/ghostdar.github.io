@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.0.5" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.5">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.5">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.5">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.5" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.5',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="前端,vue,wechat,">
+
+
+<meta name="description" content="小程序的秉承着 “体验极简化”、“用完即走” 的理念应运而生。许久之前，我就对小程序的个人版的推出满怀期待，想做点小玩意儿体验一下小程序，而后又忙于工作，没有付诸行动，如今在找工作期间得闲，花了4天，基于Vue.js中文论坛提供的开发接口，开发了论坛的小程序版。">
+<meta name="keywords" content="前端,vue,wechat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序初识--仿Vue.js中文论坛">
+<meta property="og:url" content="http://www.huashifa.xin/2017/08/15/yuque/小程序初识--仿Vue.js中文论坛/index.html">
+<meta property="og:site_name" content="Nero.Hua">
+<meta property="og:description" content="小程序的秉承着 “体验极简化”、“用完即走” 的理念应运而生。许久之前，我就对小程序的个人版的推出满怀期待，想做点小玩意儿体验一下小程序，而后又忙于工作，没有付诸行动，如今在找工作期间得闲，花了4天，基于Vue.js中文论坛提供的开发接口，开发了论坛的小程序版。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265459399-7c9daac9-5265-4898-ba0e-960ac50f202f.png#align=left&display=inline&height=1327&linkTarget=_blank&name=vue%282%29.png&originHeight=1334&originWidth=750&size=244969&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265471980-b3850dc9-d6b9-4ef2-bc67-602b8bf1b63a.png#align=left&display=inline&height=1327&linkTarget=_blank&name=vue%284%29.png&originHeight=1334&originWidth=750&size=154779&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265483018-9947b743-9f3e-4c05-9ea9-81e1a1b7d27e.png#align=left&display=inline&height=545&linkTarget=_blank&name=vue%281%29.png&originHeight=545&originWidth=320&size=7088&width=320">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265510110-ca9be02e-1954-45f4-b49b-bcf024540bf2.png#align=left&display=inline&height=548&linkTarget=_blank&name=vue%286%29.png&originHeight=548&originWidth=319&size=12327&width=319">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265526119-491b42c1-10c6-4fd4-8279-a8992f5c5c52.png#align=left&display=inline&height=1327&linkTarget=_blank&name=vue%283%29.png&originHeight=1334&originWidth=750&size=47954&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265549463-6798d862-a71c-495d-b5dd-649343ecc426.png#align=left&display=inline&height=1327&linkTarget=_blank&name=vue%285%29.png&originHeight=1334&originWidth=750&size=63813&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265560772-4d23749b-b636-4caa-a39d-c6e0afc1937d.png#align=left&display=inline&height=547&linkTarget=_blank&name=vue%287%29.png&originHeight=547&originWidth=322&size=16121&width=322">
+<meta property="og:updated_time" content="2019-01-14T03:06:59.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小程序初识--仿Vue.js中文论坛">
+<meta name="twitter:description" content="小程序的秉承着 “体验极简化”、“用完即走” 的理念应运而生。许久之前，我就对小程序的个人版的推出满怀期待，想做点小玩意儿体验一下小程序，而后又忙于工作，没有付诸行动，如今在找工作期间得闲，花了4天，基于Vue.js中文论坛提供的开发接口，开发了论坛的小程序版。">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265459399-7c9daac9-5265-4898-ba0e-960ac50f202f.png#align=left&display=inline&height=1327&linkTarget=_blank&name=vue%282%29.png&originHeight=1334&originWidth=750&size=244969&width=746">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.huashifa.xin/2017/08/15/yuque/小程序初识--仿Vue.js中文论坛/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>小程序初识--仿Vue.js中文论坛 | Nero.Hua</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Ghostdar" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nero.Hua</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-主页">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br>主页</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.huashifa.xin/2017/08/15/yuque/小程序初识--仿Vue.js中文论坛/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nero">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nero.Hua">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">小程序初识--仿Vue.js中文论坛</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T17:06:02+00:00">2017-08-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>小程序的秉承着 “体验极简化”、“用完即走” 的理念应运而生。许久之前，我就对小程序的个人版的推出满怀期待，想做点小玩意儿体验一下小程序，而后又忙于工作，没有付诸行动，如今在找工作期间得闲，花了4天，基于<a href="">Vue.js中文论坛</a>提供的开发接口，开发了论坛的小程序版。<br><a id="more"></a></p>
+<h3 id="1-主要功能："><a href="#1-主要功能：" class="headerlink" title="1. 主要功能："></a>1. 主要功能：</h3><ul>
+<li>论坛帖子查看、收藏</li>
+<li>登陆发布新帖子</li>
+<li>评论和消息管理<h3 id="2-目录结构"><a href="#2-目录结构" class="headerlink" title="2. 目录结构"></a>2. 目录结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">|——README.md          &lt;= 项目介绍</span><br><span class="line">|——app.js             &lt;= 主要逻辑文件</span><br><span class="line">|——app.json           &lt;= 全局配置文件</span><br><span class="line">|——app.wxss           &lt;= 公共样式文件 </span><br><span class="line">|——component          &lt;= 组件库</span><br><span class="line">|  |——timeTeanslate   &lt;= 时间格式转换组件</span><br><span class="line">|  |——wxParse         &lt;= 富文本解析组件</span><br><span class="line">|  |——weui            &lt;= weui样式库</span><br><span class="line">|——pages              &lt;= 页面文件</span><br><span class="line">|  |——detail</span><br><span class="line">|  |——index           </span><br><span class="line">|  |——user</span><br><span class="line">|  |——api.js          &lt;= 接口文件</span><br><span class="line">|  |——const.js        &lt;= 常量定义文件</span><br><span class="line">|——static             &lt;= 静态资源</span><br><span class="line">|  |——image</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-效果演示"><a href="#3-效果演示" class="headerlink" title="3. 效果演示"></a>3. 效果演示</h3><p>3.1 主页<br><img src="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265459399-7c9daac9-5265-4898-ba0e-960ac50f202f.png#align=left&amp;display=inline&amp;height=1327&amp;linkTarget=_blank&amp;name=vue%282%29.png&amp;originHeight=1334&amp;originWidth=750&amp;size=244969&amp;width=746" alt="vue(2).png"><br>3.2 文章详情<br><img src="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265471980-b3850dc9-d6b9-4ef2-bc67-602b8bf1b63a.png#align=left&amp;display=inline&amp;height=1327&amp;linkTarget=_blank&amp;name=vue%284%29.png&amp;originHeight=1334&amp;originWidth=750&amp;size=154779&amp;width=746" alt="vue(4).png"><br>3.3 登陆<br><img src="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265483018-9947b743-9f3e-4c05-9ea9-81e1a1b7d27e.png#align=left&amp;display=inline&amp;height=545&amp;linkTarget=_blank&amp;name=vue%281%29.png&amp;originHeight=545&amp;originWidth=320&amp;size=7088&amp;width=320" alt="vue(1).png"><br>3.4 个人中心<br><img src="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265510110-ca9be02e-1954-45f4-b49b-bcf024540bf2.png#align=left&amp;display=inline&amp;height=548&amp;linkTarget=_blank&amp;name=vue%286%29.png&amp;originHeight=548&amp;originWidth=319&amp;size=12327&amp;width=319" alt="vue(6).png"><br>3.5 发布文章<br><img src="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265526119-491b42c1-10c6-4fd4-8279-a8992f5c5c52.png#align=left&amp;display=inline&amp;height=1327&amp;linkTarget=_blank&amp;name=vue%283%29.png&amp;originHeight=1334&amp;originWidth=750&amp;size=47954&amp;width=746" alt="vue(3).png"><br>3.6 我的收藏<br><img src="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265549463-6798d862-a71c-495d-b5dd-649343ecc426.png#align=left&amp;display=inline&amp;height=1327&amp;linkTarget=_blank&amp;name=vue%285%29.png&amp;originHeight=1334&amp;originWidth=750&amp;size=63813&amp;width=746" alt="vue(5).png"><br>3.7 我的消息<br><img src="https://cdn.nlark.com/yuque/0/2019/png/155457/1547265560772-4d23749b-b636-4caa-a39d-c6e0afc1937d.png#align=left&amp;display=inline&amp;height=547&amp;linkTarget=_blank&amp;name=vue%287%29.png&amp;originHeight=547&amp;originWidth=322&amp;size=16121&amp;width=322" alt="vue(7).png"></p>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><h4 id="4-1-小程序的基本功能"><a href="#4-1-小程序的基本功能" class="headerlink" title="4.1 小程序的基本功能"></a>4.1 小程序的基本功能</h4><ul>
+<li><p>小程序的文件类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">js ---------- 主要逻辑</span><br><span class="line">json -------- 项目配置文件，负责窗口颜色等等</span><br><span class="line">wxml ------- 类似HTML文件</span><br><span class="line">wxss ------- 类似CSS文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个页面：</p>
+</li>
+</ul>
+<p>在page文件夹下创建一个页面的文件夹，里面新建4个必要的基本文件，然后再app.json中配置路由：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;pages&quot;:[</span><br><span class="line">    &quot;pages/index/index&quot;,</span><br><span class="line">    &quot;pages/detail/detail&quot;,</span><br><span class="line">    &quot;pages/user/user/user&quot;,</span><br><span class="line">    &quot;pages/user/login/login&quot;,</span><br><span class="line">    &quot;pages/user/message/message&quot;,</span><br><span class="line">    &quot;pages/user/collect/collect&quot;,</span><br><span class="line">    &quot;pages/user/newtopic/newtopic&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>发起一个API请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">wx.request(&#123;</span><br><span class="line">      url: API.API.Post_mark_all,    // 请求url</span><br><span class="line">      method: &apos;POST&apos;,                // 请求方式</span><br><span class="line">      data: &#123;</span><br><span class="line">        &apos;accesstoken&apos;: token         // 参数</span><br><span class="line">      &#125;,</span><br><span class="line">      success: function (res) &#123;</span><br><span class="line">        if (res.data.success) &#123;</span><br><span class="line">          wx.showToast(&#123;</span><br><span class="line">            title: &apos;标记成功&apos;,</span><br><span class="line">            icon: &apos;success&apos;,</span><br><span class="line">            duration: 1000</span><br><span class="line">          &#125;)</span><br><span class="line">          that.getMessage()</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">          wx.showToast(&#123;</span><br><span class="line">            title: res.data.error_msg,</span><br><span class="line">            icon: &apos;success&apos;,</span><br><span class="line">            duration: 1000</span><br><span class="line">          &#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>本地缓存<br><br>由于没有类似Vuex的状态管理工具，一些公用的数据保存在本地缓存中，例如登陆的状态、accesstoken、用户的信息等。<br><br>操作本地缓存的方法有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 设置</span><br><span class="line">wx.setStorage()   //异步</span><br><span class="line">wx.setStorageSync() //同步</span><br><span class="line">// 获取</span><br><span class="line">wx.getStorage()   //异步</span><br><span class="line">wx.getStorageSync() //同步</span><br><span class="line">//清除</span><br><span class="line">wx.clearStorage()   //异步</span><br><span class="line">wx.clearStorageSync() //同步</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>页面的生命周期的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">onLoad   //页面加载</span><br><span class="line">onReady  //页面渲染完成</span><br><span class="line">onShow   //页面显示</span><br><span class="line">onHide   //页面隐藏</span><br><span class="line">onUnload  //页面卸载</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="4-2-未实现的功能"><a href="#4-2-未实现的功能" class="headerlink" title="4.2 未实现的功能"></a>4.2 未实现的功能</h4><p>由于时间原因,以下2个功能尚未完成:</p>
+<ul>
+<li>针对于某个特定用户的回复功能<br></li>
+<li>点赞功能<br><h4 id="4-3-有待优化的地方"><a href="#4-3-有待优化的地方" class="headerlink" title="4.3 有待优化的地方"></a>4.3 有待优化的地方</h4></li>
+<li>文章的富文本解析<br></li>
+<li>小程序的状态管理<br><h4 id="4-4-个值得推荐的组件和库"><a href="#4-4-个值得推荐的组件和库" class="headerlink" title="4.4 个值得推荐的组件和库"></a>4.4 个值得推荐的组件和库</h4></li>
+<li>wxParse 富文本解析组件</li>
+<li>weui   微信官方UI库<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4>项目的github地址：<a href="">https://github.com/Ghostdar/wechat-weapp-vueForum</a><br>欢迎 <code>star!</code></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+    
+      <div>
+        
+      </div>
+    
+    
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"><i class="fa fa-tag"></i> 前端</a>
+          
+            <a href="/tags/vue/" rel="tag"><i class="fa fa-tag"></i> vue</a>
+          
+            <a href="/tags/wechat/" rel="tag"><i class="fa fa-tag"></i> wechat</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/01/yuque/浅析-Apache-工作原理/" rel="next" title="浅析-Apache-工作原理">
+                <i class="fa fa-chevron-left"></i> 浅析-Apache-工作原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/11/yuque/为什么开始写博客/" rel="prev" title="为什么开始写博客">
+                为什么开始写博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDc0NS8xMTI4Mg=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/avatar.jpg" alt="Nero">
+            
+              <p class="site-author-name" itemprop="name">Nero</p>
+              <p class="site-description motion-element" itemprop="description">code is funny ，enjoy it ！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Ghostdar" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:848760247@qq.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://segmentfault.com/u/ghostdar" target="_blank" title="SegmentFault" rel="external nofollow"><i class="fa fa-fw fa-globe"></i>SegmentFault</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          <div id="music163player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=515681475&auto=1&height=66"></iframe>
+          </div>
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-主要功能："><span class="nav-number">1.</span> <span class="nav-text">1. 主要功能：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-目录结构"><span class="nav-number">2.</span> <span class="nav-text">2. 目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-效果演示"><span class="nav-number">3.</span> <span class="nav-text">3. 效果演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-小程序的基本功能"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 小程序的基本功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-未实现的功能"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 未实现的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-有待优化的地方"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 有待优化的地方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-个值得推荐的组件和库"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 个值得推荐的组件和库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后"><span class="nav-number">4.5.</span> <span class="nav-text">最后</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nero</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span> |
+<i class="fa fa-eye"></i><span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次 |
+</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-pencil"></i><span class="post-count">博客全站共字</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.5"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.5"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.5"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.5"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.5"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
